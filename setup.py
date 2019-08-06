@@ -11,7 +11,7 @@ setuptools.setup(
     description="Turn Python Plotly Objects into JavaScript Files",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/stoolan/plotly2js.git",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
