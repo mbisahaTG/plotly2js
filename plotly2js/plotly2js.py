@@ -23,7 +23,7 @@ DEFAULT_CONFIG = {
 
 def write_to_file(js, filename):
     with open(filename, "w") as f:
-        f.write(jsbeautifier.beautify(js))
+        f.write(js)
 
 
 def fig2js(fig, plot_div_id, file=None, config=DEFAULT_CONFIG, **kwargs):
@@ -66,6 +66,8 @@ def fig2js(fig, plot_div_id, file=None, config=DEFAULT_CONFIG, **kwargs):
     assert div_id in script, "Error, script not found"
     assert "PLOTLYENV" in script
     script = script.replace(div_id, plot_div_id)
+    script = "document.addEventListener('DOMContentLoaded', function(event) {" + script + "});"
+    script = jsbeautifier.beautify(script)
     if file is not None:
         write_to_file(script, file)
     return script
