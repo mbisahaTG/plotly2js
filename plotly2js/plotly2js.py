@@ -26,7 +26,27 @@ def write_to_file(js, filename):
         f.write(jsbeautifier.beautify(js))
 
 
-def fig2js(fig, plot_div_name, config=DEFAULT_CONFIG, file=None, **kwargs):
+def fig2js(fig, plot_div_id, file=None, config=DEFAULT_CONFIG, **kwargs):
+  """
+    Convert a Plotly figure to a JavScript string representation. Optionally writes to file.
+    Parameters
+    ----------
+    fig:
+        Figure object or dict representing a figure
+    plot_div_id: str
+        The div id you would like to attach your plotly plot to
+    file: str or None (default None)
+        The file name and path for the newly-created JavaScript file
+    config: dict or None (default plotly2js.plotly2js.DEFAULT_CONFIG)
+        Plotly.js figure config options
+    VALID KEYWORD ARGUMENTS
+        See kwargs for `to_html` at https://github.com/plotly/plotly.py/blob/master/packages/python/plotly/plotly/io/_html.py
+
+    Returns
+    -------
+    str
+        Representation of figure as an HTML div string, optionally creating a file.
+    """
     DEFAULT_KWARGS = dict(
         auto_play=True,
         include_plotlyjs=False,
@@ -45,7 +65,7 @@ def fig2js(fig, plot_div_name, config=DEFAULT_CONFIG, file=None, **kwargs):
     script = soup.find("script").text
     assert div_id in script, "Error, script not found"
     assert "PLOTLYENV" in script
-    script = script.replace(div_id, plot_div_name)
+    script = script.replace(div_id, plot_div_id)
     if file is not None:
         write_to_file(script, file)
     return script
