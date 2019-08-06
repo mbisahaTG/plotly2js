@@ -27,7 +27,7 @@ def write_to_file(js, filename):
 
 
 def fig2js(fig, plot_div_id, file=None, config=DEFAULT_CONFIG, **kwargs):
-  """
+    """
     Convert a Plotly figure to a JavScript string representation. Optionally writes to file.
     Parameters
     ----------
