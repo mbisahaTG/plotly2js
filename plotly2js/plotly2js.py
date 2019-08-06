@@ -1,5 +1,5 @@
 from plotly.io._html import to_html
-import re, os, jsbeautifier
+import re, jsbeautifier
 from bs4 import BeautifulSoup
 
 DEFAULT_CONFIG = {

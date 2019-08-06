@@ -1,9 +1,8 @@
 # plotly2js
 
-## About
 Convert Python Plotly objects to valid JavaScript files
 
-# Requirements
+# Dependencies
 
 ```
 plotly==4.0.0
