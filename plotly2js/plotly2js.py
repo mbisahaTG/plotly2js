@@ -26,7 +26,15 @@ def write_to_file(js, filename):
         f.write(js)
 
 
-def fig2js(fig, plot_div_id, file=None, config=DEFAULT_CONFIG, **kwargs):
+def fig2js(
+    fig,
+    plot_div_id,
+    file=None,
+    config=DEFAULT_CONFIG,
+    before_scripts=[],
+    after_scripts=[],
+    **kwargs
+):
     """
     Convert a Plotly figure to a JavScript string representation. Optionally writes to file.
     Parameters
@@ -39,6 +47,22 @@ def fig2js(fig, plot_div_id, file=None, config=DEFAULT_CONFIG, **kwargs):
         The file name and path for the newly-created JavaScript file
     config: dict or None (default plotly2js.plotly2js.DEFAULT_CONFIG)
         Plotly.js figure config options
+    before_scripts: list of functions
+        List of functions that accept a plot div id and return valid Javascript.
+        Theses functions will be called, and their results inserted into the script BEFORE the Plotly Script
+        Example usage:
+            before_scripts = [
+                lambda div_id: f"console.log('I am plotting to {div_id}!')",
+                lambda div_id: f"console.log('This message should appear BEFORE Plotly.plot is called.')"
+            ]
+    after_scripts: list of functions
+        List of functions that accept a plot div id and return valid Javascript.
+        Theses functions will be called, and their results inserted into the script AFTER the Plotly Script
+        Example usage:
+            after_scripts = [
+                lambda div_id: f"console.log('I am plotting to {div_id}!')",
+                lambda div_id: f"console.log('This message should appear AFTER Plotly.plot is called.')"
+            ]
     VALID KEYWORD ARGUMENTS
         See kwargs for `to_html` at https://github.com/plotly/plotly.py/blob/master/packages/python/plotly/plotly/io/_html.py
 
@@ -66,7 +90,15 @@ def fig2js(fig, plot_div_id, file=None, config=DEFAULT_CONFIG, **kwargs):
     assert div_id in script, "Error, script not found"
     assert "PLOTLYENV" in script
     script = script.replace(div_id, plot_div_id)
-    script = "document.addEventListener('DOMContentLoaded', function(event) {" + script + "});"
+    for custom_script in before_scripts:
+        script = custom_script(plot_div_id) + "\n" + script
+    for custom_script in after_scripts:
+        script = script + "\n" + custom_script(plot_div_id)
+    script = (
+        "document.addEventListener('DOMContentLoaded', function(event) {"
+        + script
+        + "});"
+    )
     script = jsbeautifier.beautify(script)
     if file is not None:
         write_to_file(script, file)
