@@ -16,7 +16,7 @@ BeautifulSoup
 Install using pip:
 
 ```
-pip install git+https://github.com/stoolan/plotly2js.git
+pip install git+https://github.com/mbisahaTG/plotly2js.git
 ```
 
 # Usage
