@@ -86,7 +86,7 @@ def fig2js(
     html = to_html(fig, config=config, **DEFAULT_KWARGS)
     soup = BeautifulSoup(html, features="html.parser")
     div_id = soup.find("div", {"class": "plotly-graph-div"})["id"]
-    script = soup.find("script").text
+    script = soup.find("script").string
     assert div_id in script, "Error, script not found"
     assert "PLOTLYENV" in script
     script = script.replace(div_id, plot_div_id)
