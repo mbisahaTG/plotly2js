@@ -21,7 +21,8 @@ def set_config(filename):
         "responsive": True,
         "toImageButtonOptions": {
             'format': 'png',
-            'filename': 'Copyright_TeleGeography_' + filename
+            'filename': 'Copyright_TeleGeography_' + filename,
+            'scale': 2
         }
     }
     return DEFAULT_CONFIG
