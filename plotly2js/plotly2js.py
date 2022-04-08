@@ -2,27 +2,29 @@ from plotly.io._html import to_html
 import re, jsbeautifier
 from bs4 import BeautifulSoup
 
-DEFAULT_CONFIG = {
-    "modeBarButtonsToRemove": [
-        "sendDataToCloud",
-        "autoScale2d",
-        "hoverClosestCartesian",
-        "hoverCompareCartesian",
-        "lasso2d",
-        "select2d",
-        "zoom2d",
-        "pan2d",
-        "zoomIn2d",
-        "zoomOut2d",
-        "toggleSpikelines",
-    ],
-    "displaylogo": False,
-    "responsive": True,
-    "toImageButtonOptions": {
-        'format': 'png',
-        'filename': 'Copyright_TeleGeography_' + plot_div_id
+def set_config('filename'):
+    DEFAULT_CONFIG = {
+        "modeBarButtonsToRemove": [
+            "sendDataToCloud",
+            "autoScale2d",
+            "hoverClosestCartesian",
+            "hoverCompareCartesian",
+            "lasso2d",
+            "select2d",
+            "zoom2d",
+            "pan2d",
+            "zoomIn2d",
+            "zoomOut2d",
+            "toggleSpikelines",
+        ],
+        "displaylogo": False,
+        "responsive": True,
+        "toImageButtonOptions": {
+            'format': 'png',
+            'filename': 'Copyright_TeleGeography_' + filename
+        }
     }
-}
+    return DEFAULT_CONFIG
 
 
 def write_to_file(js, filename):
@@ -34,7 +36,8 @@ def fig2js(
     fig,
     plot_div_id,
     file=None,
-    config=DEFAULT_CONFIG,
+    #config=DEFAULT_CONFIG,
+    config=None,
     before_scripts=[],
     after_scripts=[],
     **kwargs
@@ -87,7 +90,7 @@ def fig2js(
         validate=True,
     )
     DEFAULT_KWARGS.update(kwargs)
-    html = to_html(fig, config=config, **DEFAULT_KWARGS)
+    html = to_html(fig, config=set_config(plot_div_id), **DEFAULT_KWARGS)
     soup = BeautifulSoup(html, features="html.parser")
     div_id = soup.find("div", {"class": "plotly-graph-div"})["id"]
     script = soup.find("script").string
