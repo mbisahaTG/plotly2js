@@ -18,6 +18,10 @@ DEFAULT_CONFIG = {
     ],
     "displaylogo": False,
     "responsive": True,
+    "toImageButtonOptions": {
+        'format': 'png',
+        'filename': 'Copyright_TeleGeography_' + plot_div_id
+    }
 }
 
 
