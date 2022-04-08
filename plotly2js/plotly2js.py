@@ -2,7 +2,7 @@ from plotly.io._html import to_html
 import re, jsbeautifier
 from bs4 import BeautifulSoup
 
-def set_config('filename'):
+def set_config(filename):
     DEFAULT_CONFIG = {
         "modeBarButtonsToRemove": [
             "sendDataToCloud",
